@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terms Website</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --card: #12121a;
+      --accent: #ff3366;
+      --text: #f0f0ff;
+      --muted: #a0a0cc;
+      --border: #222233;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .profile {
+      max-width: 600px;
+      width: 100%;
+      background: var(--card);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+      text-align: center;
+    }
+    .header {
+      padding: 50px 20px 30px;
+      background: linear-gradient(to bottom, #1a1a2e, #0a0a0f);
+    }
+    .avatar {
+      width: 140px;
+      height: 140px;
+      background: var(--accent);
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4.5rem;
+      font-weight: bold;
+      color: white;
+      border: 5px solid var(--accent);
+      box-shadow: 0 0 30px rgba(255,51,102,0.4);
+    }
+    h1 {
+      font-size: 3.2rem;
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+    }
+    .username {
+      font-size: 1.4rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .bio {
+      padding: 0 30px 30px;
+      font-size: 1.15rem;
+      color: var(--muted);
+      white-space: pre-wrap;
+    }
+    .discord-links a {
+      display: block;
+      margin: 12px auto;
+      padding: 14px;
+      background: #1e1e2e;
+      border-radius: 12px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 500;
+      max-width: 400px;
+      transition: 0.2s;
+    }
+    .discord-links a:hover {
+      background: #25253a;
+      transform: translateY(-2px);
+    }
+    .status {
+      font-size: 0.85rem;
+      color: #666;
+      padding: 10px 20px;
+      text-align: center;
+    }
+    footer {
+      padding: 30px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile">
+    <div class="header">
+      <div class="avatar">T</div>
+      <h1>Term/FAiL</h1>
+      <div class="username"> discord user: @3r5p</div>
+    </div>
+    <div class="bio">
+      Display: Term/FAiL<br>
+      UserName: 3r5p (on discord)<br>
+	  If i dont answer add 6e7r 
+	  or just dm me on telegram
+	  Telegram: @term_FAiL
+	  Tiktok: @term8fail (https://www.tiktok.com/@term8fail)
+	  ------------------------------
+	  If i dont answer on discord
+	  Text me on Telegram
+    </div>
+    <section class="discord-links">
+      <h2>Discord Servers</h2>
+      <div id="discordLinks">
+        <a href="https://discord.gg/NtK3Jk5bG8" target="_blank">Modding Hub</a>
+        <a href="https://discord.gg/ePnd4M3y9u" target="_blank">/club</a>
+      </div>
+    </section>
+    <div class="status">message me on tiktok or telegram if i dont answer on Discord
+	i will mostly answer on telegram than tiktok but follow me then say something in one of my videos
+	and say who you are if i know you and i might follow back other wise i will try to make an new account</div>
+    <footer>3r5p add me larp</footer>
+  </div>
+
+  <script>
+    const STORAGE_KEY = '3r5pLocalEdits';
+    // PUT YOUR REAL REMOTE CONTENT URL HERE (Pastebin raw, Gist raw, etc.)
+    // Leave as-is if you don't want auto-updates
+    const REMOTE_CONTENT_URL = 'https://pastebin.com/raw/YOUR_PASTEBIN_ID_HERE';
+    const CHECK_INTERVAL = 45000; // ~45 seconds
+
+    // Fetch remote content (bio + links only – name/username/avatar stay fixed)
+    async function updateFromRemote() {
+      if (!REMOTE_CONTENT_URL || REMOTE_CONTENT_URL.includes('YOUR_')) {
+        return;
+      }
+      try {
+        const resp = await fetch(REMOTE_CONTENT_URL + '?_=' + Date.now());
+        if (!resp.ok) throw new Error('Failed');
+        const text = await resp.text();
+
+        const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+        let bioText = '';
+        const links = [];
+
+        lines.forEach(line => {
+          if (line.includes(':')) {
+            const [key, value] = line.split(':', 2).map(s => s.trim());
+            if (value?.startsWith('http')) {
+              links.push({ name: key, url: value });
+            } else {
+              bioText += line + '\n';
+            }
+          } else {
+            bioText += line + '\n';
+          }
+        });
+
+        if (bioText.trim()) {
+          document.getElementById('bio').innerText = bioText.trim();
+        }
+
+        if (links.length > 0) {
+          const container = document.getElementById('discordLinks');
+          container.innerHTML = '';
+          links.forEach(l => {
+            const a = document.createElement('a');
+            a.href = l.url;
+            a.target = '_blank';
+            a.textContent = l.name;
+            container.appendChild(a);
+          });
+        }
+      } catch (e) {
+        // silent fail
+      }
+    }
+
+    // Start updater (only for bio/links – name/username fixed)
+    updateFromRemote();
+    setInterval(updateFromRemote, CHECK_INTERVAL);
+  </script>
+</body>
+</html>
