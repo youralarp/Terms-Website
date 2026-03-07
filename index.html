@@ -1,198 +1,328 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Terms Website</title>
-  <style>
-    :root {
-      --bg: #0a0a0f;
-      --card: #12121a;
-      --accent: #ff3366;
-      --text: #f0f0ff;
-      --muted: #a0a0cc;
-      --border: #222233;
-    }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-    .profile {
-      max-width: 600px;
-      width: 100%;
-      background: var(--card);
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-      text-align: center;
-    }
-    .header {
-      padding: 50px 20px 30px;
-      background: linear-gradient(to bottom, #1a1a2e, #0a0a0f);
-    }
-    .avatar {
-      width: 140px;
-      height: 140px;
-      background: var(--accent);
-      border-radius: 50%;
-      margin: 0 auto 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 4.5rem;
-      font-weight: bold;
-      color: white;
-      border: 5px solid var(--accent);
-      box-shadow: 0 0 30px rgba(255,51,102,0.4);
-    }
-    h1 {
-      font-size: 3.2rem;
-      margin-bottom: 8px;
-      letter-spacing: -1px;
-    }
-    .username {
-      font-size: 1.4rem;
-      color: var(--muted);
-      margin-bottom: 20px;
-    }
-    .bio {
-      padding: 0 30px 30px;
-      font-size: 1.15rem;
-      color: var(--muted);
-      white-space: pre-wrap;
-    }
-    .discord-links a {
-      display: block;
-      margin: 12px auto;
-      padding: 14px;
-      background: #1e1e2e;
-      border-radius: 12px;
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 1.1rem;
-      font-weight: 500;
-      max-width: 400px;
-      transition: 0.2s;
-    }
-    .discord-links a:hover {
-      background: #25253a;
-      transform: translateY(-2px);
-    }
-    .status {
-      font-size: 0.85rem;
-      color: #666;
-      padding: 10px 20px;
-      text-align: center;
-    }
-    footer {
-      padding: 30px;
-      color: #666;
-      font-size: 0.9rem;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {margin:0; padding:0; font-family: 'Roboto', sans-serif; background:#0d1117; color:white;}
+header {background:linear-gradient(90deg,#1f2433,#151822); padding:15px 30px; display:flex; justify-content: space-between; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.5);}
+header h1 {margin:0; font-size:24px; font-weight:700;}
+#balanceHeader {font-weight:700; font-size:16px; background:#2b3348; padding:5px 12px; border-radius:6px;}
+nav button {margin-left:10px; padding:10px 18px; border:none; border-radius:6px; background:#2b3348; color:white; cursor:pointer; font-weight:600; transition:0.2s;}
+nav button:hover {background:#3c4660;}
+#login {display:flex; flex-direction: column; justify-content:center; align-items:center; height:100vh;}
+#login input {width:250px; margin:5px 0; padding:10px; border-radius:6px; border:none; background:#1f2433; color:white;}
+#login button {margin:5px 0; width:150px; font-weight:700; border:none; border-radius:6px; padding:10px; background:#2b3348; cursor:pointer; transition:0.2s;}
+#login button:hover {background:#3c4660;}
+.page{display:none; padding:20px;}
+.card{background:linear-gradient(145deg,#1c2030,#151822); padding:15px; margin:10px 0; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.3); transition:0.2s;}
+.card:hover{transform:translateY(-3px); box-shadow:0 6px 15px rgba(0,0,0,0.5);}
+.card button{margin-top:10px; padding:8px 14px; border:none; border-radius:6px; background:#2b3348; color:white; cursor:pointer; font-weight:600; transition:0.2s;}
+.card button:hover{background:#3c4660;}
+input,textarea,select{display:block; margin:10px 0; padding:10px; width:100%; max-width:300px; background:#1f2433; color:white; border:none; border-radius:6px;}
+table{width:100%; border-collapse:collapse; margin-top:15px;}
+th,td{border:1px solid #3c4660; padding:10px;}
+th{background:#2b3348;}
+td{background:#1f2433; text-align:center;}
+#chatbox{background:#1c2030; padding:10px; height:250px; overflow-y:auto; border-radius:10px; margin-bottom:10px;}
+#message{width:100%; max-width:300px;}
+</style>
 </head>
 <body>
-  <div class="profile">
-    <div class="header">
-      <div class="avatar">T</div>
-      <h1>Term/FAiL</h1>
-      <div class="username"> discord user: @3r5p</div>
-    </div>
-    <div class="bio">
-      ****STATUS: ON 3r5p STILL****
-		
-	  Display: Term/FAiL<br>
-      UserName: 3r5p (on discord)<br>
-	  just dm me on telegram
-	  Telegram: @term_FAiL
-	  Tiktok: @term8fail (https://www.tiktok.com/@term8fail)
-	  ------------------------------
-	  If i dont answer on discord
-	  Text me on Telegram
-    </div>
-    <section class="discord-links">
-      <h2>Discord Servers</h2>
-      <div id="discordLinks">
-        <a href="https://discord.gg/NtK3Jk5bG8" target="_blank">Modding Hub</a>
-        <a href="https://discord.gg/ePnd4M3y9u" target="_blank">/club</a>
-      </div>
-    </section>
-    <div class="status">message me on tiktok or telegram if i dont answer on Discord
-	i will mostly answer on telegram than tiktok but follow me then say something in one of my videos
-	and say who you are if i know you and i might follow back other wise i will try to make an new account</div>
-    <footer>I will find you</footer>
-  </div>
 
-  <script>
-    const STORAGE_KEY = '3r5pLocalEdits';
-    // PUT YOUR REAL REMOTE CONTENT URL HERE (Pastebin raw, Gist raw, etc.)
-    // Leave as-is if you don't want auto-updates
-    const REMOTE_CONTENT_URL = 'https://pastebin.com/raw/YOUR_PASTEBIN_ID_HERE';
-    const CHECK_INTERVAL = 45000; // ~45 seconds
+<!-- LOGIN -->
+<section id="login" class="page">
+<h1>Terms Store</h1>
+<h2>Login</h2>
+<input id="loginUser" placeholder="Username">
+<input id="loginPass" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
 
-    // Fetch remote content (bio + links only – name/username/avatar stay fixed)
-    async function updateFromRemote() {
-      if (!REMOTE_CONTENT_URL || REMOTE_CONTENT_URL.includes('YOUR_')) {
-        return;
-      }
-      try {
-        const resp = await fetch(REMOTE_CONTENT_URL + '?_=' + Date.now());
-        if (!resp.ok) throw new Error('Failed');
-        const text = await resp.text();
+<h3>or Sign Up</h3>
+<input id="signupUser" placeholder="New Username">
+<input id="signupPass" type="password" placeholder="New Password">
+<button onclick="signup()">Create Account</button>
+</section>
 
-        const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
-        let bioText = '';
-        const links = [];
+<!-- STORE -->
+<div id="store" style="display:none">
+<header>
+<h1>Terms Store</h1>
+<div id="balanceHeader">COIN'S: 0</div>
+<nav>
+<button onclick="showPage('market')">Market</button>
+<button onclick="showPage('sell')">Sell</button>
+<button onclick="showPage('redeem')">Redeem</button>
+<button onclick="showPage('chat')">Chat</button>
+<button onclick="showPage('admin')">Admin</button>
+<button onclick="logout()">Logout</button>
+</nav>
+</header>
 
-        lines.forEach(line => {
-          if (line.includes(':')) {
-            const [key, value] = line.split(':', 2).map(s => s.trim());
-            if (value?.startsWith('http')) {
-              links.push({ name: key, url: value });
-            } else {
-              bioText += line + '\n';
-            }
-          } else {
-            bioText += line + '\n';
-          }
-        });
+<section id="market" class="page">
+<h2>Marketplace</h2>
+<input id="search" placeholder="Search listings" onkeyup="searchListings()">
+<div id="listings"></div>
+</section>
 
-        if (bioText.trim()) {
-          document.getElementById('bio').innerText = bioText.trim();
-        }
+<section id="sell" class="page">
+<h2>Create Listing</h2>
+<input id="title" placeholder="Title">
+<textarea id="desc" placeholder="Description"></textarea>
+<select id="category">
+<option>Software</option>
+<option>Game</option>
+<option>Media</option>
+<option>Other</option>
+</select>
+<label>Price (0 = Free)</label>
+<input id="price" type="number" value="0">
+<input id="url" placeholder="Download URL">
+<button onclick="publish()">Publish</button>
+</section>
 
-        if (links.length > 0) {
-          const container = document.getElementById('discordLinks');
-          container.innerHTML = '';
-          links.forEach(l => {
-            const a = document.createElement('a');
-            a.href = l.url;
-            a.target = '_blank';
-            a.textContent = l.name;
-            container.appendChild(a);
-          });
-        }
-      } catch (e) {
-        // silent fail
-      }
+<section id="redeem" class="page">
+<h2>Redeem Key</h2>
+<input id="key" placeholder="Enter key">
+<button onclick="redeem()">Redeem</button>
+<p id="balance">Balance: 0 COIN'S</p>
+</section>
+
+<section id="chat" class="page">
+<h2>Chat</h2>
+<div id="chatbox"></div>
+<input id="message" placeholder="Message">
+<button onclick="send()">Send</button>
+</section>
+
+<section id="admin" class="page">
+<h2>Admin Panel</h2>
+<div id="adminPanel"></div>
+<button id="adminDelete" onclick="clearListings()">Delete All Listings</button>
+<p id="adminNotice"></p>
+</section>
+</div>
+
+<script>
+// --- DATA ---
+let users = JSON.parse(localStorage.getItem("users") || "[]")
+let listings = JSON.parse(localStorage.getItem("listings") || "[]")
+let currentUser = localStorage.getItem("currentUser") || null
+let balance = 0
+let isAdmin = false
+const adminUser="term/fail"
+const adminPass="Grandma24"
+
+// --- INIT ADMIN ---
+if(!users.find(u=>u.user===adminUser)){
+  users.push({user:adminUser,pass:adminPass,balance:10,lastLogin:null})
+  localStorage.setItem("users",JSON.stringify(users))
+}
+
+// --- SIGNUP ---
+function signup(){
+  let user=document.getElementById("signupUser").value
+  let pass=document.getElementById("signupPass").value
+  if(!user||!pass){alert("Enter username and password");return}
+  if(users.find(u=>u.user===user)){alert("Username exists");return}
+  users.push({user, pass, balance:10, lastLogin:null}) // Start with 10 COIN'S
+  localStorage.setItem("users",JSON.stringify(users))
+  alert("Account created with 10 COIN'S!")
+}
+
+// --- LOGIN ---
+function login(){
+  let user=document.getElementById("loginUser").value
+  let pass=document.getElementById("loginPass").value
+
+  // Admin
+  if(user===adminUser && pass===adminPass){
+    currentUser=adminUser
+    isAdmin=true
+    let adminObj = users.find(u=>u.user===adminUser)
+    giveDailyCoins(adminObj)
+    balance=adminObj.balance
+    localStorage.setItem("currentUser",currentUser)
+    document.getElementById("login").style.display="none"
+    document.getElementById("store").style.display="block"
+    showPage("market")
+    renderListings()
+    renderAdmin()
+    updateBalanceUI()
+    document.getElementById("adminNotice").innerText="Admin privileges granted"
+    return
+  }
+
+  // Normal users
+  let found=users.find(u=>u.user==user && u.pass==pass)
+  if(found){
+    currentUser=user
+    isAdmin=false
+    giveDailyCoins(found)
+    balance=found.balance
+    localStorage.setItem("currentUser",currentUser)
+    document.getElementById("login").style.display="none"
+    document.getElementById("store").style.display="block"
+    showPage("market")
+    renderListings()
+    updateBalanceUI()
+  } else {alert("Invalid login")}
+}
+
+// --- DAILY REWARD ---
+function giveDailyCoins(userObj){
+  let today = new Date().toDateString()
+  if(userObj.lastLogin !== today){
+    userObj.balance += 5
+    userObj.lastLogin = today
+    localStorage.setItem("users",JSON.stringify(users))
+    alert("You received 5 COIN'S for today!")
+  }
+}
+
+// --- LOGOUT ---
+function logout(){
+  localStorage.removeItem("currentUser")
+  location.reload()
+}
+
+// --- AUTO LOGIN ---
+window.onload=function(){
+  if(currentUser){
+    let userObj=users.find(u=>u.user===currentUser)
+    if(userObj){
+      balance=userObj.balance
+      isAdmin=(currentUser===adminUser)
+      document.getElementById("login").style.display="none"
+      document.getElementById("store").style.display="block"
+      renderListings()
+      if(isAdmin) renderAdmin()
+      updateBalanceUI()
     }
+  }
+}
 
-    // Start updater (only for bio/links – name/username fixed)
-    updateFromRemote();
-    setInterval(updateFromRemote, CHECK_INTERVAL);
-  </script>
+// --- PAGE NAVIGATION ---
+function showPage(page){
+  document.querySelectorAll(".page").forEach(p=>p.style.display="none")
+  document.getElementById(page).style.display="block"
+  if(page=="admin" && !isAdmin){
+    document.getElementById("adminDelete").style.display="none"
+    document.getElementById("adminNotice").innerText="You are not an admin"
+  }
+}
+
+// --- UPDATE BALANCE UI ---
+function updateBalanceUI(){
+  document.getElementById("balanceHeader").innerText = "COIN'S: "+balance
+  document.getElementById("balance").innerText = "Balance: "+balance+" COIN'S"
+}
+
+// --- LISTINGS ---
+function publish(){
+  let title=document.getElementById("title").value
+  let desc=document.getElementById("desc").value
+  let price=parseInt(document.getElementById("price").value)
+  let url=document.getElementById("url").value
+  listings.push({title,desc,price,url})
+  localStorage.setItem("listings",JSON.stringify(listings))
+  renderListings()
+  alert("Listing published")
+}
+
+function renderListings(){
+  let container=document.getElementById("listings")
+  container.innerHTML=""
+  listings.forEach((l,i)=>{
+    let priceText=l.price==0 ? "FREE" : l.price+" COIN'S"
+    let button=l.price==0
+    ? `<a href="${l.url}" target="_blank"><button>Download</button></a>`
+    : `<button onclick="buy(${i})">Buy</button>`
+    let card=document.createElement("div")
+    card.className="card"
+    card.innerHTML=`<h3>${l.title}</h3><p>${l.desc}</p><p>Price: ${priceText}</p>${button}`
+    container.appendChild(card)
+  })
+}
+
+// --- BUY ---
+function buy(i){
+  let item=listings[i]
+  if(balance>=item.price){
+    balance-=item.price
+    updateBalanceUI()
+    let userObj=users.find(u=>u.user===currentUser)
+    userObj.balance=balance
+    localStorage.setItem("users",JSON.stringify(users))
+    window.open(item.url)
+  } else {alert("Not enough COIN'S")}
+}
+
+// --- REDEEM ---
+function redeem(){
+  let key=document.getElementById("key").value
+  if(key==="FREE100"){
+    balance+=100
+    let userObj=users.find(u=>u.user===currentUser)
+    userObj.balance=balance
+    localStorage.setItem("users",JSON.stringify(users))
+    updateBalanceUI()
+    alert("Redeemed 100 COIN'S")
+  } else {alert("Invalid key")}
+}
+
+// --- CHAT ---
+function send(){
+  let msg=document.getElementById("message").value
+  let box=document.getElementById("chatbox")
+  box.innerHTML+="<p>"+currentUser+": "+msg+"</p>"
+}
+
+// --- ADMIN ---
+function clearListings(){
+  if(!isAdmin){alert("Only admin can delete listings");return}
+  listings=[]
+  localStorage.setItem("listings","[]")
+  renderListings()
+  alert("All listings deleted")
+}
+
+function renderAdmin(){
+  if(!isAdmin) return
+  let panel=document.getElementById("adminPanel")
+  panel.innerHTML="<h3>Users & Balances</h3>"
+  let table="<table><tr><th>Username</th><th>Balance</th><th>Add COIN'S</th></tr>"
+  users.forEach((u,i)=>{
+    table+=`<tr>
+    <td>${u.user}</td><td id="bal${i}">${u.balance}</td>
+    <td><input id="wd${i}" type="number" placeholder="Amount">
+    <button onclick="giveWD(${i})">Add</button></td>
+    </tr>`
+  })
+  table+="</table>"
+  panel.innerHTML=table
+}
+
+function giveWD(i){
+  let amt=parseInt(document.getElementById("wd"+i).value)
+  if(isNaN(amt)||amt<=0){alert("Enter valid amount");return}
+  users[i].balance+=amt
+  localStorage.setItem("users",JSON.stringify(users))
+  document.getElementById("bal"+i).innerText=users[i].balance
+  if(users[i].user===currentUser) balance=users[i].balance
+  updateBalanceUI()
+  alert("COIN'S added")
+}
+
+// --- SEARCH ---
+function searchListings(){
+  let q=document.getElementById("search").value.toLowerCase()
+  document.querySelectorAll(".card").forEach(card=>{
+    card.style.display=card.innerText.toLowerCase().includes(q) ? "block" : "none"
+  })
+}
+</script>
 </body>
-
 </html>
-
-
-
-
