@@ -32,7 +32,6 @@ td{background:#1f2433; text-align:center;}
 </head>
 <body>
 
-<!-- LOGIN -->
 <section id="login" class="page">
 <h1>Terms Store</h1>
 <h2>Login</h2>
@@ -46,7 +45,6 @@ td{background:#1f2433; text-align:center;}
 <button onclick="signup()">Create Account</button>
 </section>
 
-<!-- STORE -->
 <div id="store" style="display:none">
 <header>
 <h1>Terms Store</h1>
@@ -118,7 +116,7 @@ const adminPass="Grandma24"
 
 // --- INIT ADMIN ---
 if(!users.find(u=>u.user===adminUser)){
-  users.push({user:adminUser,pass:adminPass,balance:10,lastLogin:null})
+  users.push({user:adminUser,pass:adminPass,balance:10,lastLogin:null,purchased:[]})
   localStorage.setItem("users",JSON.stringify(users))
 }
 
@@ -128,7 +126,7 @@ function signup(){
   let pass=document.getElementById("signupPass").value
   if(!user||!pass){alert("Enter username and password");return}
   if(users.find(u=>u.user===user)){alert("Username exists");return}
-  users.push({user, pass, balance:10, lastLogin:null})
+  users.push({user, pass, balance:10, lastLogin:null,purchased:[]})
   localStorage.setItem("users",JSON.stringify(users))
   alert("Account created with 10 COIN'S!")
 }
@@ -137,39 +135,25 @@ function signup(){
 function login(){
   let user=document.getElementById("loginUser").value
   let pass=document.getElementById("loginPass").value
-
-  // Admin
-  if(user===adminUser && pass===adminPass){
-    currentUser=adminUser
-    isAdmin=true
-    let adminObj = users.find(u=>u.user===adminUser)
-    giveDailyCoins(adminObj)
-    balance=adminObj.balance
-    localStorage.setItem("currentUser",currentUser)
-    document.getElementById("login").style.display="none"
-    document.getElementById("store").style.display="block"
-    showPage("market")
-    renderListings()
-    renderAdmin()
-    updateBalanceUI()
-    document.getElementById("adminNotice").innerText="Admin privileges granted"
-    return
+  let found = users.find(u=>u.user===user && u.pass===pass)
+  if(!found && user===adminUser && pass===adminPass){
+    currentUser = adminUser
+    isAdmin = true
+    found = users.find(u=>u.user===adminUser)
   }
-
-  // Normal users
-  let found=users.find(u=>u.user==user && u.pass==pass)
   if(found){
-    currentUser=user
-    isAdmin=false
+    currentUser = user
+    isAdmin = currentUser===adminUser
     giveDailyCoins(found)
-    balance=found.balance
+    balance = found.balance
     localStorage.setItem("currentUser",currentUser)
     document.getElementById("login").style.display="none"
     document.getElementById("store").style.display="block"
     showPage("market")
     renderListings()
+    if(isAdmin) renderAdmin()
     updateBalanceUI()
-  } else {alert("Invalid login")}
+  } else { alert("Invalid login") }
 }
 
 // --- DAILY REWARD ---
@@ -194,8 +178,9 @@ window.onload=function(){
   if(currentUser){
     let userObj=users.find(u=>u.user===currentUser)
     if(userObj){
-      balance=userObj.balance
-      isAdmin=(currentUser===adminUser)
+      if(!userObj.purchased) userObj.purchased = []
+      balance = userObj.balance
+      isAdmin = (currentUser===adminUser)
       document.getElementById("login").style.display="none"
       document.getElementById("store").style.display="block"
       renderListings()
@@ -234,31 +219,44 @@ function publish(){
 }
 
 function renderListings(){
-  let container=document.getElementById("listings")
-  container.innerHTML=""
+  let container = document.getElementById("listings")
+  container.innerHTML = ""
+  let userObj = users.find(u=>u.user===currentUser)
   listings.forEach((l,i)=>{
-    let priceText=l.price==0 ? "FREE" : l.price+" COIN'S"
-    let button=l.price==0
-      ? `<a href="${l.url}" target="_blank"><button>Download</button></a>`
-      : `<button onclick="buy(${i})">Buy</button>`
-    let card=document.createElement("div")
+    let priceText = l.price==0 ? "FREE" : l.price + " COIN'S"
+    let button = ""
+    if(l.price == 0 || userObj.purchased.includes(i)){
+      button = `<a href="${l.url}" target="_blank"><button>Download</button></a>`
+    } else {
+      button = `<button onclick="buy(${i})">Buy</button>`
+    }
+    let card = document.createElement("div")
     card.className="card"
-    card.innerHTML=`<h3>${l.title}</h3><p>${l.desc}</p><p>Price: ${priceText}</p>${button}`
+    card.innerHTML = `<h3>${l.title}</h3>
+                      <p>${l.desc}</p>
+                      <p>Price: ${priceText}</p>
+                      ${button}`
     container.appendChild(card)
   })
 }
 
 // --- BUY ---
 function buy(i){
-  let item=listings[i]
-  if(balance>=item.price){
+  let item = listings[i]
+  let userObj = users.find(u=>u.user===currentUser)
+  if(userObj.purchased.includes(i)){
+    alert("You already bought this item!")
+    return
+  }
+  if(balance >= item.price){
     balance -= item.price
-    updateBalanceUI()
-    let userObj = users.find(u=>u.user===currentUser)
     userObj.balance = balance
+    userObj.purchased.push(i)
     localStorage.setItem("users",JSON.stringify(users))
-    window.open(item.url)
-  } else {alert("Not enough COIN'S")}
+    updateBalanceUI()
+    renderListings()
+    alert("Purchase successful! Click 'Download' to get the item.")
+  } else { alert("Not enough COIN'S") }
 }
 
 // --- REDEEM ---
@@ -267,14 +265,14 @@ function redeem(){
   let index = keys.findIndex(k=>k.code===keyInput)
   if(index!==-1){
     balance += keys[index].value
-    let userObj=users.find(u=>u.user===currentUser)
+    let userObj = users.find(u=>u.user===currentUser)
     userObj.balance = balance
     localStorage.setItem("users",JSON.stringify(users))
-    updateBalanceUI()
-    alert("Redeemed "+keys[index].value+" COIN'S!")
     keys.splice(index,1)
     localStorage.setItem("keys",JSON.stringify(keys))
     renderKeys()
+    updateBalanceUI()
+    alert("Redeemed "+keys[index]?.value+" COIN'S!")
   } else {alert("Invalid key")}
 }
 
@@ -294,10 +292,8 @@ function clearListings(){
   alert("All listings deleted")
 }
 
-// --- ADMIN PANEL ---
 function renderAdmin(){
   if(!isAdmin) return
-
   let panel = document.getElementById("adminPanel")
   panel.innerHTML = "<h3>Users & Balances</h3>"
   let table = "<table><tr><th>Username</th><th>Balance</th><th>Add COIN'S</th></tr>"
@@ -316,7 +312,6 @@ function renderAdmin(){
     <button onclick="createKey()">Create Key</button>
     <h4>Active Keys</h4>
     <ul id="keyList"></ul>`
-
   panel.innerHTML = table
   renderKeys()
 }
