@@ -32,6 +32,7 @@ td{background:#1f2433; text-align:center;}
 </head>
 <body>
 
+<!-- LOGIN -->
 <section id="login" class="page">
 <h1>Terms Store</h1>
 <h2>Login</h2>
@@ -45,6 +46,7 @@ td{background:#1f2433; text-align:center;}
 <button onclick="signup()">Create Account</button>
 </section>
 
+<!-- STORE -->
 <div id="store" style="display:none">
 <header>
 <h1>Terms Store</h1>
@@ -144,6 +146,7 @@ function login(){
   if(found){
     currentUser = user
     isAdmin = currentUser===adminUser
+    if(!found.purchased) found.purchased=[]
     giveDailyCoins(found)
     balance = found.balance
     localStorage.setItem("currentUser",currentUser)
@@ -178,7 +181,7 @@ window.onload=function(){
   if(currentUser){
     let userObj=users.find(u=>u.user===currentUser)
     if(userObj){
-      if(!userObj.purchased) userObj.purchased = []
+      if(!userObj.purchased) userObj.purchased=[]
       balance = userObj.balance
       isAdmin = (currentUser===adminUser)
       document.getElementById("login").style.display="none"
@@ -208,14 +211,14 @@ function updateBalanceUI(){
 
 // --- LISTINGS ---
 function publish(){
-  let title=document.getElementById("title").value
-  let desc=document.getElementById("desc").value
-  let price=parseInt(document.getElementById("price").value)
-  let url=document.getElementById("url").value
-  listings.push({title,desc,price,url})
-  localStorage.setItem("listings",JSON.stringify(listings))
+  let title = document.getElementById("title").value
+  let desc = document.getElementById("desc").value
+  let price = parseInt(document.getElementById("price").value)
+  let url = document.getElementById("url").value
+  listings.push({title, desc, price, url})
+  localStorage.setItem("listings", JSON.stringify(listings)) // global
   renderListings()
-  alert("Listing published")
+  alert("Listing published. Everyone can now see it!")
 }
 
 function renderListings(){
